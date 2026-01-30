@@ -1,0 +1,5 @@
+load --int=timer /home/expos/myexpos/workdir/stage12/timer.xsm
+load --os /home/expos/myexpos/workdir/stage12/assign1os.xsm
+load --idle /home/expos/myexpos/workdir/stage12/assign1idle.xsm
+load --init /home/expos/myexpos/workdir/stage12/assign1init.xsm
+load --library /home/expos/myexpos/expl/library.lib
