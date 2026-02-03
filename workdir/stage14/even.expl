@@ -3,9 +3,10 @@ int main(){
     int a,b;
     enddecl
     begin
-    while(1==1)do
-    b=exposcall("Write", -2, "HELLO");
-    a=1;
+    a=2;
+    while(a<=100) do
+    b=exposcall("Write", -2,a);
+    a=a+2;
     endwhile;
     return 0;
     end

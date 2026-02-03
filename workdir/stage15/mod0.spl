@@ -1,0 +1,35 @@
+alias f R1;
+alias currpid R2;
+
+if (f==8) then
+while ([TERMINAL_STATUS_TABLE]==1) do
+[PROCESS_TABLE + currpid*16 +4]=WAIT_TERMINAL;
+multipush(R1,R2);
+call MOD_4;
+multipop(R1,R2);
+endwhile;
+[TERMINAL_STATUS_TABLE]=1;
+[TERMINAL_STATUS_TABLE+1]=currpid;
+breakpoint;
+return;
+endif;
+
+if(f==9) then
+    if (currpid != [TERMINAL_STATUS_TABLE+1]) then
+        R0=-1;
+        return;
+    endif;
+    [TERMINAL_STATUS_TABLE]=0;
+    alias pid R5;
+    pid=0;
+    while (pid<16)do
+        if ([PROCESS_TABLE + 16*pid +4]==WAIT_TERMINAL)then
+            [PROCESS_TABLE + 16*pid +4]=READY;
+        endif;
+        pid=pid+1;
+    endwhile;
+R0=0;
+breakpoint;
+return;
+endif;
+return;

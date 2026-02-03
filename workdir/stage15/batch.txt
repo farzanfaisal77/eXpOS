@@ -1,0 +1,11 @@
+load --module 7 /home/expos/myexpos/workdir/stage15/bootmod.xsm
+load --exec /home/expos/myexpos/workdir/stage14/even.xsm
+load --idle /home/expos/myexpos/workdir/stage14/idle.xsm
+load --int=10 /home/expos/myexpos/workdir/stage14/int10.xsm
+load --init /home/expos/myexpos/workdir/stage14/odd.xsm
+load --os /home/expos/myexpos/workdir/stage14/os_startup.xsm
+load --module 5 /home/expos/myexpos/workdir/stage14/scheduler.xsm
+load --int=timer /home/expos/myexpos/workdir/stage14/timer.xsm
+load --int=7 /home/expos/myexpos/workdir/stage15/int7.xsm
+load --module 0 /home/expos/myexpos/workdir/stage15/mod0.xsm
+load --module 4 /home/expos/myexpos/workdir/stage15/mod4.xsm
