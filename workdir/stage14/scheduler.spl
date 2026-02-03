@@ -21,7 +21,7 @@ iterator=currpid+1;
 counter=0;
 newpid=-1;
 
-while(counter < 16) do
+while(counter < 15) do
     if ([PROCESS_TABLE + 16* iterator + 4]==CREATED || [PROCESS_TABLE + 16* iterator + 4]== READY) then
         newpid=iterator;
         break;
@@ -54,7 +54,5 @@ endif;
 [newprocesstable + 4] = RUNNING;
 multipop(BP);
 return;
-
-
 
 

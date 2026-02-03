@@ -21,6 +21,15 @@ loadi(51,64);
 
 loadi(86, 69);
 
+
+loadi(40,53);
+loadi(41,54);
+
+loadi(48,61);
+loadi(49,62);
+
+[TERMINAL_STATUS_TABLE]=0;
+
 PTBR = PAGE_TABLE_BASE+20;
 PTLR=10;
 //Library
