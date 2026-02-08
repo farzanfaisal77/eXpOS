@@ -1,3 +1,4 @@
+fdisk
 load --module 7 /home/expos/myexpos/workdir/stage15/bootmod.xsm
 load --exec /home/expos/myexpos/workdir/stage14/even.xsm
 load --idle /home/expos/myexpos/workdir/stage14/idle.xsm

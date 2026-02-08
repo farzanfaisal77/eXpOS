@@ -3,7 +3,7 @@ int main(){
     int n,temp,divisors, iloop;
     enddecl
     begin
-    n=1;
+    n=2;
     breakpoint;
     while(n<=100) do
         divisors=0;

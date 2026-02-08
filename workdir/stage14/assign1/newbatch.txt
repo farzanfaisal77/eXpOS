@@ -7,6 +7,6 @@ load --os /home/expos/myexpos/workdir/stage14/os_startup.xsm
 load --module 5 /home/expos/myexpos/workdir/stage14/scheduler.xsm
 load --library /home/expos/myexpos/expl/library.lib
 load --int=timer /home/expos/myexpos/workdir/stage14/timer.xsm
-load --exec /home/expos/myexpos/workdir/stage14/trialfiles/prime100.xsm
+load --exec /home/expos/myexpos/workdir/stage14/assign1/prime.xsm
 load --module 0 /home/expos/myexpos/workdir/stage15/mod0.xsm
 load --module 4 /home/expos/myexpos/workdir/stage15/mod4.xsm
