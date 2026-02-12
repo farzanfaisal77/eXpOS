@@ -1,0 +1,17 @@
+fdisk
+load --library /home/expos/myexpos/expl/library.lib
+load --os /home/expos/myexpos/workdir/stage17/os_startup.xsm
+load --module 0 /home/expos/myexpos/workdir/stage15/mod0.xsm
+load --module 1 /home/expos/myexpos/workdir/stage17/mod1procman.xsm
+load --module 2 /home/expos/myexpos/workdir/stage17/mod2memman.xsm
+load --module 4 /home/expos/myexpos/workdir/stage16/mod4device.xsm
+load --module 5 /home/expos/myexpos/workdir/stage14/scheduler.xsm
+load --module 7 /home/expos/myexpos/workdir/stage17/mod7boot.xsm
+load --int=timer /home/expos/myexpos/workdir/stage14/timer.xsm
+load --int=console /home/expos/myexpos/workdir/stage16/consoleint.xsm
+load --int=6 /home/expos/myexpos/workdir/stage16/int6.xsm
+load --int=7 /home/expos/myexpos/workdir/stage15/int7.xsm
+load --int=9 /home/expos/myexpos/workdir/stage17/int9exec.xsm
+load --int=10 /home/expos/myexpos/workdir/stage14/int10.xsm
+load --idle /home/expos/myexpos/workdir/stage14/idle.xsm
+load --init /home/expos/myexpos/workdir/stage16/gcd.xsm

@@ -1,0 +1,11 @@
+int main(){
+    decl
+    int t,fname;
+    enddecl
+    begin
+	t= exposcall("Write", -2, "Enter program");
+	t= exposcall("Read" , -1, fname);
+	t= exposcall("Exec", fname); 
+	return 0;
+    end
+}

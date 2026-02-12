@@ -1,0 +1,139 @@
+alias usersp R0;
+usersp=SP;
+[PROCESS_TABLE + [SYSTEM_STATUS_TABLE+1]*16 + 13]=SP;
+
+SP=[PROCESS_TABLE + [SYSTEM_STATUS_TABLE+1]*16 + 11] * 512 -1;
+
+[PROCESS_TABLE + [SYSTEM_STATUS_TABLE+1]*16 + 9]=9;
+
+alias pt R1;
+pt=PAGE_TABLE_BASE + [SYSTEM_STATUS_TABLE+1]*20;
+
+alias physpg R2;
+alias offs R3;
+alias addr R4;
+alias filename R5;
+physpg=[pt + 2*((usersp-4)/512)];
+offs=(usersp-4)%512;
+addr=physpg*512 + offs;
+
+filename=[addr];
+
+alias inoden R6;
+alias found R7;
+
+inoden=0;
+found=0;
+
+//cws=0
+while(inoden < MAX_FILE_NUM) do
+    if ([INODE_TABLE + inoden*16 + 1] == filename)then
+        if ([INODE_TABLE + inoden*16]==EXEC)then
+            found=1;
+            break;
+        endif;
+    endif;
+    inoden=inoden+1;
+endwhile; 
+
+if (found==0) then
+    physpg=[pt+ 2*((usersp-1)/512)];
+    offs=(usersp-1)%512;
+    addr=physpg*512 + offs;
+    [addr]=-1;
+    [PROCESS_TABLE + [SYSTEM_STATUS_TABLE + 1] * 16 + 9] = 0;
+    SP=usersp;
+    ireturn;
+endif;
+
+multipush(R0,R1,R2,R3,R4,R5,R6,R7);
+
+R1=3;
+R2=[SYSTEM_STATUS_TABLE+1];
+
+call MOD_1;
+
+multipop(R0,R1,R2,R3,R4,R5,R6,R7);
+
+alias userareapg R8;
+userareapg=[PROCESS_TABLE + [SYSTEM_STATUS_TABLE+1]*16 + 11];
+
+
+[MEMORY_FREE_LIST+userareapg]=[MEMORY_FREE_LIST+userareapg]+1;
+[SYSTEM_STATUS_TABLE+2]=[SYSTEM_STATUS_TABLE+2]-1;
+
+SP=userareapg*512;
+[PROCESS_TABLE + [SYSTEM_STATUS_TABLE + 1] * 16 + 4] = RUNNING;
+[PROCESS_TABLE + [SYSTEM_STATUS_TABLE + 1] * 16 + 7] = inoden;
+
+// Allocating pages
+// Library
+[PTBR + 0] = 63;
+[PTBR + 1] = "0100";
+[PTBR + 2] = 64;
+[PTBR + 3] = "0100";
+
+multipush(R0,R1,R2,R3,R4,R5,R6,R7,R8);
+
+// Heap
+R1 = 1;
+call MOD_2;
+[PTBR + 4] = R0;
+[PTBR + 5] = "0110";
+
+R1 = 1;
+call MOD_2;
+[PTBR + 6] = R0;
+[PTBR + 7] = "0110";
+
+// Stack
+R1 = 1;
+call MOD_2;
+[PTBR + 16] = R0;
+[PTBR + 17] = "0110";
+
+R1 = 1;
+call MOD_2;
+[PTBR + 18] = R0;
+[PTBR + 19] = "0110";
+
+multipop(R0,R1,R2,R3,R4,R5,R6,R7,R8);
+
+// Code
+alias numBlocks R9;
+alias i R10;
+
+i = 0;
+numBlocks = (([INODE_TABLE + 16 * inoden + 2] - 1) / 512) + 1;
+
+multipush(R0,R1,R2,R3,R4,R5,R6,R7,R8);
+
+while (i<4) do
+    if (i<numBlocks) then
+        R1 = 1;
+        call MOD_2;
+        [PTBR+8+2*i]=R0;
+        [PTBR+9+2*i]="0100";
+    else
+        [PTBR+8+2*i] = -1;
+        [PTBR+9+2*i] = "0000";
+    endif;
+    i=i+1;
+endwhile;
+
+multipop(R0,R1,R2,R3,R4,R5,R6,R7,R8);
+
+
+i=0;
+while (i<numBlocks) do
+    loadi([PTBR+8+2*i],[INODE_TABLE+inoden*16+8+i]);
+    i=i+1;
+endwhile;
+
+[[PTBR+16]*512]=[[PTBR+8]*512+1];
+
+SP=8*512;
+
+[PROCESS_TABLE + [SYSTEM_STATUS_TABLE + 1] * 16 + 9] = 0;
+
+ireturn;
