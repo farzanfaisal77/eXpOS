@@ -1,15 +1,15 @@
 fdisk
 load --module 7 /home/expos/myexpos/workdir/stage16/bootst16.xsm
-load --int=console /home/expos/myexpos/workdir/stage16/consoleint.xsm
+load --int=console /home/expos/myexpos/workdir/stage16/mod/consoleint.xsm
 load --init /home/expos/myexpos/workdir/stage16/mod/tennum.xsm
 load --int=6 /home/expos/myexpos/workdir/stage16/int6.xsm
 load --module 4 /home/expos/myexpos/workdir/stage16/mod4device.xsm
-load --idle /home/expos/myexpos/workdir/stage16/mod/tenname.xsm
+load --idle /home/expos/myexpos/workdir/stage14/idle.xsm
 load --int=10 /home/expos/myexpos/workdir/stage14/int10.xsm
 load --os /home/expos/myexpos/workdir/stage14/os_startup.xsm
 load --module 5 /home/expos/myexpos/workdir/stage14/scheduler.xsm
 load --library /home/expos/myexpos/expl/library.lib
 load --int=timer /home/expos/myexpos/workdir/stage14/timer.xsm
 load --int=7 /home/expos/myexpos/workdir/stage15/int7.xsm
-load --module 0 /home/expos/myexpos/workdir/stage15/mod0.xsm
-load --module 4 /home/expos/myexpos/workdir/stage16/mod4device.xsm
+load --module 0 /home/expos/myexpos/workdir/stage16/mod/mod0.xsm
+load --module 4 /home/expos/myexpos/workdir/stage16/mod/mod4device.xsm

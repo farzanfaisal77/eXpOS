@@ -1,0 +1,41 @@
+[PROCESS_TABLE + [SYSTEM_STATUS_TABLE+1]*16 + 13]=SP;
+SP=[PROCESS_TABLE + [SYSTEM_STATUS_TABLE+1]*16 + 11]*512-1;
+
+backup;
+
+alias reqpid R3;
+alias rproc R2;
+reqpid=[TERMINAL_STATUS_TABLE+1];
+rproc=PROCESS_TABLE+reqpid*16;
+[rproc + 8]=P0;
+
+multipush(R3,R2);
+
+R1=9;
+R2=reqpid;
+
+//release
+alias currpid R9;
+currpid=[SYSTEM_STATUS_TABLE+1];
+    if (currpid != [TERMINAL_STATUS_TABLE+1]) then
+        R0=-1;
+    endif;
+    if (currpid == [TERMINAL_STATUS_TABLE+1]) then
+    [TERMINAL_STATUS_TABLE]=0;
+    alias pid R5;
+    pid=0;
+    while (pid<16)do
+        if ([PROCESS_TABLE + 16*pid +4]==WAIT_TERMINAL)then
+            [PROCESS_TABLE + 16*pid +4]=READY;
+        endif;
+        pid=pid+1;
+    endwhile;
+R0=0;
+endif;
+
+//release
+
+multipop(R3,R2);
+restore;
+SP=[PROCESS_TABLE + [SYSTEM_STATUS_TABLE+1]*16 + 13];
+ireturn;
