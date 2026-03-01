@@ -2,8 +2,10 @@ alias functionnum R1;
 
 //get free pg
 if (functionnum == 1) then
+//put it to wating a page in memory
 [SYSTEM_STATUS_TABLE + 3]=[SYSTEM_STATUS_TABLE + 3] + 1;
 while ([SYSTEM_STATUS_TABLE + 2]==0) do
+    //schedul another process if no free pages in memory
         [PROCESS_TABLE +16*[SYSTEM_STATUS_TABLE + 1] + 4]=WAIT_MEM;
         multipush(R1);
         call MOD_5;
@@ -26,25 +28,55 @@ breakpoint;
 return;
 endif;
 
-//releasepg
+//releasepg (setting that page number in memory free list to free ie 0)
 if (functionnum==2) then
 alias pgno R2;
 
 [MEMORY_FREE_LIST+pgno] = [MEMORY_FREE_LIST+pgno]-1;
 
 if ([MEMORY_FREE_LIST + pgno]==0) then
-    //pg is free
+    //pg is freed update ememory free count
     [SYSTEM_STATUS_TABLE+2] = [SYSTEM_STATUS_TABLE+2]+1;
 endif;
 alias i R3;
 i=1;
 
 while (i < 16) do
+    //now ttha the page is free all wait memory can be moved to ready
     if ([PROCESS_TABLE +16*i + 4] == WAIT_MEM) then
         [PROCESS_TABLE +16*i + 4] = READY;
     endif;
     i = i + 1;
 endwhile;
+breakpoint;
+return;
+endif;
+
+
+//get free pg for stack
+if (functionnum == 3) then
+//put it to wating a page in memory
+[SYSTEM_STATUS_TABLE + 3]=[SYSTEM_STATUS_TABLE + 3] + 1;
+while ([SYSTEM_STATUS_TABLE + 2]==0) do
+    //schedul another process if no free pages in memory
+        [PROCESS_TABLE +16*[SYSTEM_STATUS_TABLE + 1] + 4]=WAIT_MEM;
+        multipush(R1);
+        call MOD_5;
+        multipop(R1);
+    endwhile;
+
+[SYSTEM_STATUS_TABLE + 3] = [SYSTEM_STATUS_TABLE + 3] - 1;
+
+alias memfreeidx R2;
+
+//need to chk 76 to 128
+memfreeidx=127;
+while (([MEMORY_FREE_LIST + memfreeidx] > 0) && (memfreeidx  >76)) do
+    memfreeidx=memfreeidx-1;
+endwhile;
+
+[MEMORY_FREE_LIST+memfreeidx]=1;
+R0 = memfreeidx;
 breakpoint;
 return;
 endif;
