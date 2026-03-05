@@ -10,7 +10,6 @@ multipop(R1,R2);
 endwhile;
 [TERMINAL_STATUS_TABLE]=1;
 [TERMINAL_STATUS_TABLE+1]=currpid;
-breakpoint;
 return;
 endif;
 
@@ -29,7 +28,6 @@ if(f==9) then
         pid=pid+1;
     endwhile;
 R0=0;
-breakpoint;
 return;
 endif;
 return;
