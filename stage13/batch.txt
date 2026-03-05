@@ -1,3 +1,4 @@
+fdisk
 load --int=timer /home/expos/myexpos/workdir/stage12/timer.xsm
 load --os /home/expos/myexpos/workdir/stage13/os_startup.xsm
 load --idle /home/expos/myexpos/workdir/stage12/assign1idle.xsm
