@@ -24,7 +24,7 @@ endwhile;
 
 [MEMORY_FREE_LIST+memfreeidx]=1;
 R0 = memfreeidx;
-breakpoint;
+
 return;
 endif;
 
@@ -48,7 +48,7 @@ while (i < 16) do
     endif;
     i = i + 1;
 endwhile;
-breakpoint;
+
 return;
 endif;
 
@@ -77,6 +77,6 @@ endwhile;
 
 [MEMORY_FREE_LIST+memfreeidx]=1;
 R0 = memfreeidx;
-breakpoint;
+
 return;
 endif;
