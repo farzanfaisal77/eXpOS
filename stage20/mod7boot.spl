@@ -66,6 +66,10 @@ loadi(7, 20);
 // disk free list
 loadi(61, 2);
 
+//module 8
+loadi(18,31);
+loadi(19,32);
+
 
 [DISK_STATUS_TABLE]=0;
 [TERMINAL_STATUS_TABLE]=0;

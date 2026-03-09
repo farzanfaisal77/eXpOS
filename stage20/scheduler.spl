@@ -1,0 +1,63 @@
+alias currpid R0;
+alias currproctable R1;
+
+currpid = [SYSTEM_STATUS_TABLE + 1];
+
+multipush(BP);
+
+currproctable = PROCESS_TABLE + currpid * 16;
+
+[currproctable + 12] = SP % 512;
+[currproctable + 14] = PTBR;
+[currproctable + 15] = PTLR;
+
+alias iterator R2;
+alias counter R3;
+alias newpid R4;
+
+// Start searching from the next process
+iterator = (currpid + 1) % 16;
+counter = 0;
+newpid = 0; 
+
+// Loop through all 15 potential user processes
+while(counter < 15) do
+    // We only want to check user processes (PID 1 to 15) in this loop
+    if (iterator != 0) then
+        if ([PROCESS_TABLE + 16 * iterator + 4] == CREATED || [PROCESS_TABLE + 16 * iterator + 4] == READY) then
+            newpid = iterator;
+            break;
+        endif;
+    endif;
+    
+    iterator = (iterator + 1) % 16;
+    counter = counter + 1;
+endwhile;
+
+//newpid is now either a valid READY/CREATED process or IDLE
+alias newprocesstable R5;
+newprocesstable = PROCESS_TABLE + newpid * 16;
+
+// Restore the context of the new process
+SP = [newprocesstable + 11] * 512 + [newprocesstable + 12];
+PTBR = [newprocesstable + 14];
+PTLR = [newprocesstable + 15];
+
+[SYSTEM_STATUS_TABLE + 1] = newpid;
+
+
+
+if ([newprocesstable + 4] == CREATED) then
+    [newprocesstable + 4] = RUNNING;
+    SP = [newprocesstable + 13]; // Use User Stack Pointer for first run
+    [newprocesstable + 9] = 0;   // Reset Mode Flag
+    SP = [newprocesstable + 13];
+    BP = [[newprocesstable + 11] * 512];
+    ireturn;
+endif;
+
+[newprocesstable + 4] = RUNNING;
+
+multipop(BP);
+
+return;
