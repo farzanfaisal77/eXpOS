@@ -1,0 +1,58 @@
+alias currpid R0;
+alias currproctable R1;
+
+currpid=[SYSTEM_STATUS_TABLE+1];
+
+multipush(BP);
+
+currproctable = PROCESS_TABLE + currpid*16;
+
+[currproctable+12]=SP%512;
+[currproctable+14]=PTBR;
+[currproctable+15]=PTLR;
+
+//now i need to find the next pid starting from currpid+1 around circularly as the next process id
+
+alias iterator R2;
+alias counter R3;
+alias newpid R4;
+
+iterator=currpid+1;
+counter=0;
+newpid=-1;
+
+while(counter < 15) do
+    if ([PROCESS_TABLE + 16* iterator + 4]==CREATED || [PROCESS_TABLE + 16* iterator + 4]== READY) then
+        newpid=iterator;
+        break;
+        endif;
+    counter=counter+1;
+    iterator=(iterator+1)%16;
+endwhile;
+
+if (newpid==-1) then
+newpid=0;
+endif;
+
+alias newprocesstable R5;
+
+newprocesstable= PROCESS_TABLE+ newpid*16;
+
+SP = [newprocesstable + 11]*512 + [newprocesstable + 12];
+PTBR = [newprocesstable + 14];
+PTLR = [newprocesstable + 15];
+
+[SYSTEM_STATUS_TABLE + 1] =newpid;
+
+if ([newprocesstable + 4] == CREATED) then
+	[newprocesstable + 4] = RUNNING;
+	SP = [newprocesstable + 13];
+	[newprocesstable + 9] = 0;
+	ireturn;
+endif;
+
+[newprocesstable + 4] = RUNNING;
+multipop(BP);
+return;
+
+

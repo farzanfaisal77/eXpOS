@@ -1,0 +1,21 @@
+decl
+int temp, i;
+str list[100];
+enddecl
+
+int main(){
+    begin
+    i=0;
+    while(i<5)do
+        temp=exposcall("Write", -2, "name");
+        temp=exposcall("Read", -1, list[i]);
+        i=i+1;
+    endwhile;
+    i=0;
+    while(i<5)do
+        temp=exposcall("Write", -2, list[i]);
+        i=i+1;
+    endwhile;
+    return 0;
+    end
+}

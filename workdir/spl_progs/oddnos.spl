@@ -1,0 +1,32 @@
+alias c R0;
+c=0;
+while (c<=20)do
+   if (c%2!=0)then
+        print c;
+   endif;
+   c=c+1;
+endwhile;
+alias c R0;
+c=0;
+while (c<=20)do
+   if (c%2!=0)then
+        print c;
+   endif;
+   c=c+1;
+endwhile;
+alias d R0;
+d=0;
+while (d<=20)do
+   if (d%2!=0)then
+        print d;
+   endif;
+   d=c+1;
+endwhile;
+alias d R0;
+d=0;
+while (d<=20)do
+   if (d%2!=0)then
+        print d;
+   endif;
+   d=d+1;
+endwhile;

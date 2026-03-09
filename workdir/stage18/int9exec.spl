@@ -1,0 +1,181 @@
+alias usersp R0;
+usersp=SP;
+[PROCESS_TABLE + [SYSTEM_STATUS_TABLE+1]*16 + 13]=SP;
+
+//switching to kernel stack
+SP=[PROCESS_TABLE + [SYSTEM_STATUS_TABLE+1]*16 + 11] * 512 -1;
+
+//changing mode
+[PROCESS_TABLE + [SYSTEM_STATUS_TABLE+1]*16 + 9]=9;
+
+//page table of current procees
+alias pt R1;
+pt=PAGE_TABLE_BASE + [SYSTEM_STATUS_TABLE+1]*20;
+
+alias physpg R2;
+alias offs R3;
+alias addr R4;
+alias filename R5;
+physpg=[pt + 2*((usersp-4)/512)];
+offs=(usersp-4)%512;
+addr=physpg*512 + offs;
+
+//getting filename that user inputted by address translation
+filename=[addr];
+
+alias inoden R6;
+alias found R7;
+
+inoden=0;
+found=0;
+
+//searching through inode table for that filename
+while(inoden < MAX_FILE_NUM) do
+    if ([INODE_TABLE + inoden*16 + 1] == filename)then
+        if ([INODE_TABLE + inoden*16]==EXEC)then
+            found=1;
+            break;
+        endif;
+    endif;
+    inoden=inoden+1;
+endwhile; 
+
+
+//return back to user if not found
+if (found==0) then
+    physpg=[pt+ 2*((usersp-1)/512)];
+    offs=(usersp-1)%512;
+    addr=physpg*512 + offs;
+    [addr]=-1;
+    [PROCESS_TABLE + [SYSTEM_STATUS_TABLE + 1] * 16 + 9] = 0;
+    SP=usersp;
+    ireturn;
+endif;
+
+
+//if the file is found in inode table then
+
+//first we need to go to process manager to clear the contents of the process
+multipush(R0,R1,R2,R3,R4,R5,R6,R7);
+
+R1=3;
+R2=[SYSTEM_STATUS_TABLE+1];
+
+call MOD_1;
+
+multipop(R0,R1,R2,R3,R4,R5,R6,R7);
+
+//find userareapg of the process to set it to free 
+
+alias userareapg R8;
+userareapg=[PROCESS_TABLE + [SYSTEM_STATUS_TABLE+1]*16 + 11];
+
+
+[MEMORY_FREE_LIST+userareapg]=[MEMORY_FREE_LIST+userareapg]+1;
+[SYSTEM_STATUS_TABLE+2]=[SYSTEM_STATUS_TABLE+2]-1;
+
+//setting newSP
+SP=userareapg*512;
+
+//set the state of process to running
+[PROCESS_TABLE + [SYSTEM_STATUS_TABLE + 1] * 16 + 4] = RUNNING;
+//set inodeentry to the inode index
+[PROCESS_TABLE + [SYSTEM_STATUS_TABLE + 1] * 16 + 7] = inoden;
+
+// Allocating pages
+// Library
+[PTBR + 0] = 63;
+[PTBR + 1] = "0100";
+[PTBR + 2] = 64;
+[PTBR + 3] = "0100";
+
+multipush(R0,R1,R2,R3,R4,R5,R6,R7,R8);
+
+// Heap
+R1 = 1;
+//calling mod2 will put a free page number in R0
+call MOD_2;
+
+
+[PTBR + 4] = R0;
+[PTBR + 5] = "0110";
+
+R1 = 1;
+call MOD_2;
+[PTBR + 6] = R0;
+[PTBR + 7] = "0110";
+
+
+
+R1 = 1;
+call MOD_2;
+[PTBR + 16] = R0;
+[PTBR + 17] = "0110";
+
+R1 = 1;
+call MOD_2;
+[PTBR + 18] = R0;
+[PTBR + 19] = "0110";
+
+multipop(R0,R1,R2,R3,R4,R5,R6,R7,R8);
+
+// Code
+alias numBlocks R9;
+alias i R10;
+
+i = 0;
+//find number of blocks used by code by taking filesize
+numBlocks = (([INODE_TABLE + 16 * inoden + 2] - 1) / 512) + 1;
+
+multipush(R0,R1,R2,R3,R4,R5,R6,R7,R8);
+//finding free pages and allocate it for the code
+while (i<4) do
+    if (i<numBlocks) then
+        R1 = 1;
+        call MOD_2;
+        [PTBR+8+2*i]=R0;
+        [PTBR+9+2*i]="0100";
+    else
+        [PTBR+8+2*i] = -1;
+        [PTBR+9+2*i] = "0000";
+    endif;
+    i=i+1;
+endwhile;
+
+multipop(R0,R1,R2,R3,R4,R5,R6,R7,R8);
+
+
+i=0;
+while (i<numBlocks) do
+    //loadi([PTBR+8+2*i],[INODE_TABLE+inoden*16+8+i]);
+
+    multipush(R0,R1,R2,R3,R4,R5,R6,R7,R8);
+
+    R1=2;
+    R2=[SYSTEM_STATUS_TABLE+1];
+    R3=[PTBR+8+2*i];
+    R4=[INODE_TABLE+inoden*16+8+i];
+    call MOD_4;
+
+    multipop(R0,R1,R2,R3,R4,R5,R6,R7,R8);
+
+    i=i+1;
+endwhile;
+
+//resource table init
+
+i=1;
+while (i < 9) do
+    [([PROCESS_TABLE+[SYSTEM_STATUS_TABLE+1]*16+11] + 1)*512-2*i]=-1;
+    i=i+1;
+endwhile;
+
+
+//setting stack
+[[PTBR+16]*512]=[[PTBR+8]*512+1];
+
+SP=8*512;
+
+[PROCESS_TABLE + [SYSTEM_STATUS_TABLE + 1] * 16 + 9] = 0;
+
+ireturn;

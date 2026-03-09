@@ -1,0 +1,13 @@
+int main(){
+decl
+int n,m;
+enddecl
+begin
+n=1;
+while(n<=50) do
+m=exposcall("Write", -2, n);
+n=n+1;
+endwhile;
+return 0;
+end
+}
