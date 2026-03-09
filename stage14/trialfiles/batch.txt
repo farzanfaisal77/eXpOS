@@ -1,9 +1,0 @@
-load --module 7 /home/expos/myexpos/workdir/stage14/trialfiles/bootmodule.xsm
-load --exec /home/expos/myexpos/workdir/stage14/trialfiles/even100.xsm
-load --idle /home/expos/myexpos/workdir/stage14/trialfiles/idle.xsm
-load --int=10 /home/expos/myexpos/workdir/stage14/trialfiles/int10.xsm
-load --init /home/expos/myexpos/workdir/stage14/trialfiles/odd100.xsm
-load --os /home/expos/myexpos/workdir/stage14/trialfiles/osstartup.xsm
-load --module 5 /home/expos/myexpos/workdir/stage14/trialfiles/scheduler.xsm
-load --int=timer /home/expos/myexpos/workdir/stage14/trialfiles/timer.xsm
-load --library /home/expos/myexpos/expl/library.lib

@@ -1,9 +1,0 @@
-fdisk
-load --library /home/expos/myexpos/expl/library.lib
-load --os /home/expos/myexpos/workdir/stage12/assign1os.xsm
-load --int=7 /home/expos/myexpos/workdir/stage10/int7.xsm
-load --int=10 /home/expos/myexpos/workdir/stage6/haltprog.xsm
-load --exhandler /home/expos/myexpos/workdir/stage6/haltprog.xsm
-load --init /home/expos/myexpos/workdir/stage12/assign1init.xsm
-load --int=timer /home/expos/myexpos/workdir/stage12/timer.xsm
-load --idle /home/expos/myexpos/workdir/stage12/assign1idle.xsm

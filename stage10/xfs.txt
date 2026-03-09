@@ -1,2 +1,0 @@
-load --init $HOME/myexpos/workdir/stage10/squares.xsm
-load --int=10 $HOME/myexpos/workdir/stage10/int7.xsm
