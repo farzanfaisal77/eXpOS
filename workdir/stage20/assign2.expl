@@ -1,0 +1,60 @@
+type
+    List {
+    int val;
+    List next;
+    }
+endtype
+
+int main(){
+    decl
+    int n,temp,val,pid;
+    List head,tail,curr;
+    enddecl
+
+    begin
+
+    temp=initialize();
+    head=null;
+    curr=alloc();
+    val=1;
+    n=100;
+    curr.val=val;
+    head=curr;
+    tail=curr;
+    n=n-1;
+    while (n>0) do
+        curr=alloc();
+        val=val+1;
+        curr.val=val;
+        tail.next=curr;
+        tail=tail.next;
+        n=n-1;
+    endwhile;
+
+    curr=head;
+    pid=exposcall("Fork");
+    if (pid==0) then
+        curr=head;
+        while(curr!=null) do
+            temp=exposcall("Write", -2, curr.val);
+            curr=curr.next;
+            if (curr==null) then
+                break;
+            endif;
+            curr=curr.next;
+        endwhile;
+    else
+        tail=head.next;
+        while(tail!=null) do
+            temp=exposcall("Write",-2,tail.val);    
+            tail=tail.next;
+            if (tail==null) then
+                break;
+            endif;
+            tail=tail.next;
+        endwhile;
+    endif;
+    return 0;
+
+    end
+}
