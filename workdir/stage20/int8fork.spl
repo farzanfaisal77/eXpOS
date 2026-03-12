@@ -18,33 +18,30 @@ if (cpid==-1) then
     ireturn;
 endif;
 
-alias ptbr R2;
-ptbr=PAGE_TABLE_BASE + [SYSTEM_STATUS_TABLE+1]*20;
+
 //heap for child if parent doesnt have
-if ([ptbr+4]==-1) then
-    multipush(R0,R1,R5);
-    R0=1;
+if ([PTBR + 4] == -1) then
+    multipush(R0, R1, R2, R5, R13);
+
+    R1 = 1;
     call MOD_2;
-    alias freepg R3;
-    freepg=R0;
-    multipop(R0,R1,R5);
-    [ptbr + 4]=freepg;
-    [ptbr + 5]="0110";
-    multipush(R0,R1,R5);
-    R0=1;
+    [PTBR + 4] = R0;
+    [PTBR + 5] = "1110";
+    R1 = 1;
     call MOD_2;
-    freepg=R0;
-    multipop(R0,R1,R5);
-    [ptbr + 6]=freepg;
-    [ptbr + 7]="0110";
+    [PTBR + 6] = R0;
+    [PTBR + 7] = "1110";
+
+    multipop(R0, R1, R2, R5, R13);
 endif;
 
 
+
 //uarepg for child
-multipush(R0,R1,R5);
+multipush(R1,R5,R13);
 R1 = 1;
 call MOD_2;
-multipop(R0,R1,R5);
+multipop(R1,R5,R13);
 [PROCESS_TABLE + cpid*16 + 11] = R0;
 
 
@@ -52,16 +49,16 @@ multipop(R0,R1,R5);
 
 alias cptbr R9;
 cptbr=PAGE_TABLE_BASE + cpid *20;
-multipush(R1,R5,R9);
+multipush(R1,R5,R9,R13);
 R1 = 1;
 call MOD_2;
-multipop(R1,R5,R9);
+multipop(R1,R5,R9,R13);
 [cptbr + 16] = R0;
 [cptbr + 17] = "0110";
-multipush(R1,R5,R9);
+multipush(R1,R5,R9,R13);
 R1 = 1;
 call MOD_2;
-multipop(R1,R5,R9);
+multipop(R1,R5,R9,R13);
 [cptbr + 18] = R0;
 [cptbr + 19] = "0110";
 
@@ -129,15 +126,13 @@ while (i < 512) do
     i = i + 1;
 endwhile;
 
-
+[PROCESS_TABLE + cpid*16 + 12] = 1;
 [[PROCESS_TABLE + cpid * 16 + 11] * 512] = BP;
-[PROCESS_TABLE + [SYSTEM_STATUS_TABLE + 1] * 16 + 9] = 0;
 
-usersp=[PROCESS_TABLE + [SYSTEM_STATUS_TABLE+1]*16 + 13];
 // return value
 [[PTBR + 2 * ((usersp - 1) / 512)] * 512 + (usersp - 1) % 512] = cpid;
 [[cptbr + 2 * ((usersp - 1) / 512)] * 512 + (usersp - 1) % 512] = 0;
-
+[PROCESS_TABLE + [SYSTEM_STATUS_TABLE + 1] * 16 + 9] = 0;
 SP = [PROCESS_TABLE + [SYSTEM_STATUS_TABLE + 1] * 16 + 13];
 
 ireturn;
