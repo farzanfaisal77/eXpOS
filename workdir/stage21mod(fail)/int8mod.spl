@@ -1,0 +1,140 @@
+[PROCESS_TABLE + [SYSTEM_STATUS_TABLE+1]*16 + 13]=SP;
+//switching to kernel stack
+SP=[PROCESS_TABLE + [SYSTEM_STATUS_TABLE+1]*16 + 11] * 512 -1;
+alias usersp R13;
+
+[PROCESS_TABLE + [SYSTEM_STATUS_TABLE+1]*16 + 9]= 8;
+
+R1=1;
+call MOD_1;
+alias cpid R5;
+cpid=R0;
+
+usersp=[PROCESS_TABLE + [SYSTEM_STATUS_TABLE+1]*16 + 13];
+if (cpid==-1) then
+    [[PTBR + 2*((usersp - 1)/512)]*512 + (usersp - 1)%512] = -1;
+    [PROCESS_TABLE + [SYSTEM_STATUS_TABLE+1]*16 + 9]=0;
+    SP=[PROCESS_TABLE + [SYSTEM_STATUS_TABLE+1]*16 + 13];
+    ireturn;
+endif;
+
+
+//heap for child if parent doesnt have
+if ([PTBR + 4] == -1) then
+    multipush(R0, R1, R2, R5, R13);
+
+    R1 = 1;
+    call MOD_2;
+    [PTBR + 4] = R0;
+    [PTBR + 5] = "1110";
+    R1 = 1;
+    call MOD_2;
+    [PTBR + 6] = R0;
+    [PTBR + 7] = "1110";
+
+    multipop(R0, R1, R2, R5, R13);
+endif;
+
+
+
+//uarepg for child
+multipush(R1,R5,R13);
+R1 = 1;
+call MOD_2;
+multipop(R1,R5,R13);
+[PROCESS_TABLE + cpid*16 + 11] = R0;
+
+
+//stack for child
+
+alias cptbr R9;
+cptbr=PAGE_TABLE_BASE + cpid *20;
+multipush(R1,R5,R9,R13);
+R1 = 1;
+call MOD_2;
+multipop(R1,R5,R9,R13);
+[cptbr + 16] = R0;
+[cptbr + 17] = "0110";
+multipush(R1,R5,R9,R13);
+R1 = 1;
+call MOD_2;
+multipop(R1,R5,R9,R13);
+[cptbr + 18] = R0;
+[cptbr + 19] = "0110";
+
+//Intialization of Process Table
+[PROCESS_TABLE + cpid*16 + 3] = [PROCESS_TABLE + [SYSTEM_STATUS_TABLE + 1]*16 + 3];
+[PROCESS_TABLE + cpid*16 + 6] = [PROCESS_TABLE + [SYSTEM_STATUS_TABLE + 1]*16 + 6];
+[PROCESS_TABLE + cpid*16 + 7] = [PROCESS_TABLE + [SYSTEM_STATUS_TABLE + 1]*16 + 7];
+[PROCESS_TABLE + cpid*16 + 10] = [PROCESS_TABLE + [SYSTEM_STATUS_TABLE + 1]*16 + 10];
+[PROCESS_TABLE + cpid*16 + 13] = [PROCESS_TABLE + [SYSTEM_STATUS_TABLE + 1]*16 + 13];
+[PROCESS_TABLE + cpid*16 + 0] = 0;
+[PROCESS_TABLE + cpid*16 + 9] = 0;
+[PROCESS_TABLE + cpid*16 + 12] = 0;
+[PROCESS_TABLE + cpid*16 + 2] = [SYSTEM_STATUS_TABLE + 1];
+[PROCESS_TABLE + cpid*16 + 4] = CREATED;
+
+//per process resource table for child
+alias i R6;
+i = 0;
+alias temp1 R7;
+alias temp2 R8;
+temp1 = [PROCESS_TABLE + cpid*16 + 11];
+temp2 = [PROCESS_TABLE + [SYSTEM_STATUS_TABLE + 1]*16 + 11];
+while (i < 8) do
+    [temp1*512 + 512-16 + i*2] = [temp2*512 + 512-16 + i*2];
+    [temp1*512 + 512-16 + i*2 + 1] = [temp2*512 + 512-16 + i*2 + 1] ;
+    i=i+1;
+endwhile;
+
+// Initialize per process disk map table for child
+i = 0;
+while (i < 10) do
+    [DISK_MAP_TABLE + cpid*10 + i] = [DISK_MAP_TABLE + [SYSTEM_STATUS_TABLE + 1]*10 + i];
+    i=i+1;
+endwhile;
+
+
+
+//same lib and heap
+i = 0;
+while (i < 8) do
+    [cptbr + i*2] = [PTBR + i*2];
+    [cptbr + i*2 + 1] = [PTBR + i*2 + 1];
+    if ([cptbr + i*2] != -1) then
+        [MEMORY_FREE_LIST + [cptbr + i*2]] = [MEMORY_FREE_LIST + [cptbr + i*2]] + 1;
+    endif;
+    i = i + 1;
+endwhile;
+
+
+alias os R10;
+alias ns R11;
+os = [PTBR + 16];
+ns = [cptbr + 16];
+i = 0;
+while (i < 512) do
+    [ns * 512 + i] = [os * 512 + i];
+    i = i + 1;
+endwhile;
+
+os = [PTBR + 18];
+ns = [cptbr + 18];
+i = 0;
+while (i < 512) do
+    [ns * 512 + i] = [os * 512 + i];
+    i = i + 1;
+endwhile;
+
+[PROCESS_TABLE + cpid*16 + 12] = 1;
+[[PROCESS_TABLE + cpid * 16 + 11] * 512] = BP;
+
+// return value
+[PROCESS_TABLE + [SYSTEM_STATUS_TABLE + 1] * 16 + 9] = 0;
+SP = [PROCESS_TABLE + [SYSTEM_STATUS_TABLE + 1] * 16 + 13];
+R0=usersp;
+R14=cpid;
+R15=[SYSTEM_STATUS_TABLE+1];
+call MOD_6;
+
+ireturn;

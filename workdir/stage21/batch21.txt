@@ -1,25 +1,26 @@
 fdisk
 load --library /home/expos/myexpos/expl/library.lib
-load --exhandler /home/expos/myexpos/workdir/stage19/exhand.xsm
-load --os /home/expos/myexpos/workdir/stage17/os_startup.xsm
-load --module 0 /home/expos/myexpos/workdir/stage18/mod0.xsm
+load --exhandler /home/expos/myexpos/workdir/stage21/exhand.xsm
+load --os /home/expos/myexpos/workdir/stage21/os_startup.xsm
+load --module 0 /home/expos/myexpos/workdir/stage21/mod0.xsm
 load --module 1 /home/expos/myexpos/workdir/stage21/mod1proc.xsm
-load --module 2 /home/expos/myexpos/workdir/stage19/mod2memman.xsm
-load --module 4 /home/expos/myexpos/workdir/stage18/mod4device.xsm
-load --module 5 /home/expos/myexpos/workdir/stage20/scheduler.xsm
+load --module 2 /home/expos/myexpos/workdir/stage21/mod2memman.xsm
+load --module 4 /home/expos/myexpos/workdir/stage21/mod4device.xsm
+load --module 5 /home/expos/myexpos/workdir/stage21/scheduler.xsm
 load --module 7 /home/expos/myexpos/workdir/stage21/mod7boot.xsm
-load --int=timer /home/expos/myexpos/workdir/stage14/timer.xsm
-load --int=console /home/expos/myexpos/workdir/stage16/consoleint.xsm
-load --int=disk /home/expos/myexpos/workdir/stage18/diskint.xsm
-load --int=6 /home/expos/myexpos/workdir/stage16/int6.xsm
-load --int=7 /home/expos/myexpos/workdir/stage15/int7.xsm
-load --int=8 /home/expos/myexpos/workdir/stage20/int8fork.xsm
-load --int=9 /home/expos/myexpos/workdir/stage19/int9exec.xsm
-load --int=10 /home/expos/myexpos/workdir/stage20/int10exit.xsm
+load --int=timer /home/expos/myexpos/workdir/stage21/timer.xsm
+load --int=console /home/expos/myexpos/workdir/stage21/consoleint.xsm
+load --int=disk /home/expos/myexpos/workdir/stage21/diskint.xsm
+load --int=6 /home/expos/myexpos/workdir/stage21/int6.xsm
+load --int=7 /home/expos/myexpos/workdir/stage21/int7.xsm
+load --int=8 /home/expos/myexpos/workdir/stage21/int8fork.xsm
+load --int=9 /home/expos/myexpos/workdir/stage21/int9exec.xsm
+load --int=10 /home/expos/myexpos/workdir/stage21/int10exit.xsm
 load --int=11 /home/expos/myexpos/workdir/stage21/int11.xsm
 load --int=15 /home/expos/myexpos/workdir/stage21/int15.xsm
-load --idle /home/expos/myexpos/workdir/stage14/idle.xsm
+load --idle /home/expos/myexpos/workdir/stage21/idle.xsm
 load --init /home/expos/myexpos/workdir/stage21/shell.xsm
 load --exec /home/expos/myexpos/workdir/stage19/linklist.xsm
 load --exec /home/expos/myexpos/workdir/stage20/odd.xsm
 load --exec /home/expos/myexpos/workdir/stage20/even.xsm
+load --exec /home/expos/myexpos/workdir/stage21/ll.xsm

@@ -1,0 +1,26 @@
+fdisk
+load --library /home/expos/myexpos/expl/library.lib
+load --exhandler /home/expos/myexpos/workdir/stage22/exhand.xsm
+load --os /home/expos/myexpos/workdir/stage22/os_startup.xsm
+load --module 0 /home/expos/myexpos/workdir/stage22/mod0.xsm
+load --module 1 /home/expos/myexpos/workdir/stage22/mod1proc.xsm
+load --module 2 /home/expos/myexpos/workdir/stage22/mod2memman.xsm
+load --module 4 /home/expos/myexpos/workdir/stage22/mod4device.xsm
+load --module 5 /home/expos/myexpos/workdir/stage22/scheduler.xsm
+load --module 7 /home/expos/myexpos/workdir/stage22/mod7boot.xsm
+load --int=timer /home/expos/myexpos/workdir/stage22/timer.xsm
+load --int=console /home/expos/myexpos/workdir/stage22/consoleint.xsm
+load --int=disk /home/expos/myexpos/workdir/stage22/diskint.xsm
+load --int=6 /home/expos/myexpos/workdir/stage22/int6.xsm
+load --int=7 /home/expos/myexpos/workdir/stage22/int7.xsm
+load --int=8 /home/expos/myexpos/workdir/stage22/int8fork.xsm
+load --int=9 /home/expos/myexpos/workdir/stage22/int9exec.xsm
+load --int=10 /home/expos/myexpos/workdir/stage22/int10exit.xsm
+load --int=11 /home/expos/myexpos/workdir/stage22/int11.xsm
+load --int=15 /home/expos/myexpos/workdir/stage22/int15.xsm
+load --idle /home/expos/myexpos/workdir/stage22/idle.xsm
+load --init /home/expos/myexpos/workdir/stage22/shell.xsm
+load --exec /home/expos/myexpos/workdir/stage22/linklist.xsm
+load --exec /home/expos/myexpos/workdir/stage22/odd.xsm
+load --exec /home/expos/myexpos/workdir/stage22/even.xsm
+load --exec /home/expos/myexpos/workdir/stage22/ll.xsm
