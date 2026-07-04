@@ -51,4 +51,4 @@ docker exec -it expos /bin/bash
 
 If you use Visual Studio Code, you can attach directly to the running container using the **Dev Containers** extension — no terminal required.
 
-<a href="https://exposnitc.github.io/Roadmap.html"> Roadmap link</a>
+<a href="https://exposnitc.github.io/Roadmap.html"> roadmap link</a>
