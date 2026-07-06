@@ -32,6 +32,10 @@ loadi(9,22);
 loadi(10, 23);
 loadi(11, 24);
 
+//load int 5
+loadi(12, 25);
+loadi(13, 26);
+
 //load int 6
 loadi(14,27);
 loadi(15,28);
@@ -81,7 +85,11 @@ loadi(43,56);
 loadi(44,57);
 loadi(45,58);
 
-//load device manager (module 4)
+//load module 3 (file manager)
+loadi(46, 59);
+loadi(47, 60);
+
+//load module 4 (device manager)
 loadi(48,61);
 loadi(49,62);
 
@@ -140,12 +148,21 @@ while(R0 < 60) do
     R0 = R0 + 1;
 endwhile;
 
+//Initialize open file table
+R0 = 0;
+while(R0 < MAX_OPENFILE_NUM) do
+    [OPEN_FILE_TABLE + 4*R0 + 0] = -1;
+    [OPEN_FILE_TABLE + 4*R0 + 1] = 0;
+    [OPEN_FILE_TABLE + 4*R0 + 2] = 0;
+    R0 = R0 + 1;
+endwhile;
+
 //Initialize buffer table
 R0 = 0;
 while(R0 < 4) do
-    [BUFFER_TABLE + 4*R0 + 0] = -1;
+    [BUFFER_TABLE + 4*R0 + 0] = -1; //block no
     [BUFFER_TABLE + 4*R0 + 1] = 0;  //dirty bit
-    [BUFFER_TABLE + 4*R0 + 2] = -1;
+    [BUFFER_TABLE + 4*R0 + 2] = -1; //locking pid
     R0 = R0 + 1;
 endwhile;
 

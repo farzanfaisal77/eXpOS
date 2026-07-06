@@ -39,6 +39,14 @@ if(fn_num == 2) then //Free user area page
             call RESOURCE_MANAGER;
             multipop(R0, R1, R2, R3, R4, R5);
         endif;
+
+        if([resource_table + 2*R5] == FILE) then
+            multipush(R0, R1, R2, R3, R4, R5);
+            R1 = 4; //close file
+            R2 = [resource_table + 2*R5 + 1];
+            call FILE_MANAGER;
+            multipop(R0, R1, R2, R3, R4, R5);
+        endif;
         
         [resource_table + 2*R5] = -1;
         [resource_table + 2*R5 + 1] = -1;

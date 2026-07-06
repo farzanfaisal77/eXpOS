@@ -8,6 +8,7 @@ load --int=timer /home/expos/myexpos/workdir/stage24/timer.xsm
 load --int=disk /home/expos/myexpos/workdir/stage24/disk_int.xsm
 load --int=console /home/expos/myexpos/workdir/stage24/console.xsm
 load --int=4 /home/expos/myexpos/workdir/stage24/int4.xsm
+load --int=5 /home/expos/myexpos/workdir/stage24/int5.xsm
 load --int=6 /home/expos/myexpos/workdir/stage24/int6.xsm
 load --int=7 /home/expos/myexpos/workdir/stage24/int7.xsm
 load --int=8 /home/expos/myexpos/workdir/stage24/int8.xsm
@@ -20,6 +21,11 @@ load --int=15 /home/expos/myexpos/workdir/stage24/int15.xsm
 load --module 0 /home/expos/myexpos/workdir/stage24/mod0.xsm
 load --module 1 /home/expos/myexpos/workdir/stage24/mod1.xsm
 load --module 2 /home/expos/myexpos/workdir/stage24/mod2.xsm
+load --module 3 /home/expos/myexpos/workdir/stage24/mod3.xsm
 load --module 4 /home/expos/myexpos/workdir/stage24/mod4.xsm
 load --module 5 /home/expos/myexpos/workdir/stage24/mod5.xsm
 load --module 7 /home/expos/myexpos/workdir/stage24/mod7.xsm
+load --exec /home/expos/myexpos/workdir/stage24/read.xsm
+load --exec /home/expos/myexpos/workdir/stage24/assign2.xsm
+load --data /home/expos/myexpos/workdir/stage24/sample.dat
+load --data /home/expos/myexpos/workdir/stage24/numbers.dat

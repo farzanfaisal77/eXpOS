@@ -71,6 +71,10 @@ while(R6 < 16) do
         R7 = [R4 + R6 + 1]; //R7 holds semaphore table index
         [SEMAPHORE_TABLE + 4*R7 + 1] = [SEMAPHORE_TABLE + 4*R7 + 1] + 1;
     endif;
+    if(R6 % 2 == 2 && [R4 + R6] == FILE) then
+        R7 = [R4 + R6 + 1]; //R7 holds open file table index;
+        [OPEN_FILE_TABLE + 4*R7 + 1] = [OPEN_FILE_TABLE + 4*R7 + 1] + 1;
+    endif;
     R6 = R6 + 1;
 endwhile;
 
