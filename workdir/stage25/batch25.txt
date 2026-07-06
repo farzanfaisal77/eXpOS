@@ -1,0 +1,38 @@
+fdisk
+load --os /home/expos/myexpos/workdir/stage25/os_startup.xsm
+load --init /home/expos/myexpos/workdir/stage25/init.xsm
+load --idle /home/expos/myexpos/workdir/stage25/idle.xsm
+load --library /home/expos/myexpos/expl/library.lib
+load --exhandler /home/expos/myexpos/workdir/stage25/exhandler.xsm
+load --int=timer /home/expos/myexpos/workdir/stage25/timer.xsm
+load --int=disk /home/expos/myexpos/workdir/stage25/disk_int.xsm
+load --int=console /home/expos/myexpos/workdir/stage25/console.xsm
+load --int=4 /home/expos/myexpos/workdir/stage25/int4.xsm
+load --int=5 /home/expos/myexpos/workdir/stage25/int5.xsm
+load --int=6 /home/expos/myexpos/workdir/stage25/int6.xsm
+load --int=7 /home/expos/myexpos/workdir/stage25/int7.xsm
+load --int=8 /home/expos/myexpos/workdir/stage25/int8.xsm
+load --int=9 /home/expos/myexpos/workdir/stage25/int9.xsm
+load --int=10 /home/expos/myexpos/workdir/stage25/int10.xsm
+load --int=11 /home/expos/myexpos/workdir/stage25/int11.xsm
+load --int=13 /home/expos/myexpos/workdir/stage25/int13.xsm
+load --int=14 /home/expos/myexpos/workdir/stage25/int14.xsm
+load --int=15 /home/expos/myexpos/workdir/stage25/int15.xsm
+load --module 0 /home/expos/myexpos/workdir/stage25/mod0.xsm
+load --module 1 /home/expos/myexpos/workdir/stage25/mod1.xsm
+load --module 2 /home/expos/myexpos/workdir/stage25/mod2.xsm
+load --module 3 /home/expos/myexpos/workdir/stage25/mod3.xsm
+load --module 4 /home/expos/myexpos/workdir/stage25/mod4.xsm
+load --module 5 /home/expos/myexpos/workdir/stage25/mod5.xsm
+load --module 7 /home/expos/myexpos/workdir/stage25/mod7.xsm
+load --exec /home/expos/myexpos/workdir/stage25/cat.xsm
+load --exec /home/expos/myexpos/workdir/stage25/cp.xsm
+load --exec /home/expos/myexpos/workdir/stage25/ls.xsm
+load --exec /home/expos/myexpos/workdir/stage25/rm.xsm
+load --exec /home/expos/myexpos/workdir/stage25/read.xsm
+load --exec /home/expos/myexpos/workdir/stage25/a1.xsm
+load --exec /home/expos/myexpos/workdir/stage25/a2.xsm
+load --exec /home/expos/myexpos/workdir/stage25/a3.xsm
+load --exec /home/expos/myexpos/workdir/stage25/a4.xsm
+load --data /home/expos/myexpos/workdir/stage25/sample.dat
+load --data /home/expos/myexpos/workdir/stage25/numbers.dat
