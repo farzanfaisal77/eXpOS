@@ -91,5 +91,3 @@ if(func_num == 9)then //release terminal
     R0 = 0;
     return;
 endif;
-
-

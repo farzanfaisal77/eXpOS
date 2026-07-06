@@ -23,3 +23,6 @@ load --module 4 /home/expos/myexpos/workdir/stage22/mod4.xsm
 load --module 5 /home/expos/myexpos/workdir/stage22/mod5.xsm
 load --module 7 /home/expos/myexpos/workdir/stage22/mod7.xsm
 load --exec /home/expos/myexpos/workdir/stage22/even.xsm
+load --exec /home/expos/myexpos/workdir/stage22/assign1.xsm
+load --exec /home/expos/myexpos/workdir/stage22/parent.xsm
+load --exec /home/expos/myexpos/workdir/stage22/child.xsm
