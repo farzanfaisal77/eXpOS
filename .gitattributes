@@ -1,0 +1,4 @@
+Dockerfile linguist-vendored
+*.spl linguist-language=C
+*.expl linguist-language=C
+*.xsm linguist-language=Assembly
