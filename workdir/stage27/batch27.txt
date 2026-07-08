@@ -1,0 +1,42 @@
+fdisk
+load --os /home/expos/myexpos/workdir/stage27/os_startup.xsm
+load --init /home/expos/myexpos/workdir/stage27/init.xsm
+load --shell /home/expos/myexpos/workdir/stage27/shell.xsm
+load --idle /home/expos/myexpos/workdir/stage27/idle.xsm
+load --library /home/expos/myexpos/expl/library.lib
+load --exhandler /home/expos/myexpos/workdir/stage27/exhandler.xsm
+load --int=timer /home/expos/myexpos/workdir/stage27/timer.xsm
+load --int=disk /home/expos/myexpos/workdir/stage27/disk_int.xsm
+load --int=console /home/expos/myexpos/workdir/stage27/console.xsm
+load --int=4 /home/expos/myexpos/workdir/stage27/int4.xsm
+load --int=5 /home/expos/myexpos/workdir/stage27/int5.xsm
+load --int=6 /home/expos/myexpos/workdir/stage27/int6.xsm
+load --int=7 /home/expos/myexpos/workdir/stage27/int7.xsm
+load --int=8 /home/expos/myexpos/workdir/stage27/int8.xsm
+load --int=9 /home/expos/myexpos/workdir/stage27/int9.xsm
+load --int=10 /home/expos/myexpos/workdir/stage27/int10.xsm
+load --int=11 /home/expos/myexpos/workdir/stage27/int11.xsm
+load --int=12 /home/expos/myexpos/workdir/stage27/int12.xsm
+load --int=13 /home/expos/myexpos/workdir/stage27/int13.xsm
+load --int=14 /home/expos/myexpos/workdir/stage27/int14.xsm
+load --int=15 /home/expos/myexpos/workdir/stage27/int15.xsm
+load --int=16 /home/expos/myexpos/workdir/stage27/int16.xsm
+load --int=17 /home/expos/myexpos/workdir/stage27/int17.xsm
+load --module 0 /home/expos/myexpos/workdir/stage27/mod0.xsm
+load --module 1 /home/expos/myexpos/workdir/stage27/mod1.xsm
+load --module 2 /home/expos/myexpos/workdir/stage27/mod2.xsm
+load --module 3 /home/expos/myexpos/workdir/stage27/mod3.xsm
+load --module 4 /home/expos/myexpos/workdir/stage27/mod4.xsm
+load --module 5 /home/expos/myexpos/workdir/stage27/mod5.xsm
+load --module 6 /home/expos/myexpos/workdir/stage27/mod6.xsm
+load --module 7 /home/expos/myexpos/workdir/stage27/mod7.xsm
+load --exec /home/expos/myexpos/workdir/stage27/a1.xsm
+load --exec /home/expos/myexpos/workdir/stage27/pid.xsm
+load --exec /home/expos/myexpos/workdir/stage27/cat.xsm
+load --exec /home/expos/myexpos/workdir/stage27/cp.xsm
+load --exec /home/expos/myexpos/workdir/stage27/ls.xsm
+load --exec /home/expos/myexpos/workdir/stage27/rm.xsm
+load --exec /home/expos/myexpos/workdir/stage27/ru.xsm
+load --exec /home/expos/myexpos/workdir/stage27/lu.xsm
+load --data /home/expos/myexpos/workdir/stage27/sample.dat
+load --data /home/expos/myexpos/workdir/stage27/numbers.dat
